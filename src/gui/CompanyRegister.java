@@ -40,6 +40,10 @@ public class CompanyRegister extends JFrame {
 	public JRadioButton rdbtnDoArquivo;
 	public JRadioButton rdbtnDoRepositorioDo;
 	public JLabel lblLocal;
+	private JRadioButton rdbtnCertA1;
+	private JRadioButton rdbtnCertA3;
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
 	
 
 	/**
@@ -81,10 +85,6 @@ public class CompanyRegister extends JFrame {
 		tfCompanyName.setBounds(137, 8, 287, 20);
 		contentPane.add(tfCompanyName);
 		tfCompanyName.setColumns(10);
-		
-		JLabel lblCertificadoDigitalA = new JLabel("Certificado Digital A1");
-		lblCertificadoDigitalA.setBounds(10, 45, 140, 14);
-		contentPane.add(lblCertificadoDigitalA);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 36, 414, 2);
@@ -146,7 +146,36 @@ public class CompanyRegister extends JFrame {
 				
 		//Radio buttons logic
 		rdbtnDoArquivo.setSelected(true);
+		
+		rdbtnCertA1 = new JRadioButton("Certificado Digital A1");
+		rdbtnCertA1.setSelected(true);
+		buttonGroup_1.add(rdbtnCertA1);
+		rdbtnCertA1.setBounds(10, 40, 155, 23);
+		contentPane.add(rdbtnCertA1);
+		
+		rdbtnCertA3 = new JRadioButton("Certificado Digital A3");
+		buttonGroup_1.add(rdbtnCertA3);
+		rdbtnCertA3.setBounds(176, 40, 155, 23);
+		contentPane.add(rdbtnCertA3);
+		
+		JRadioButton rdbtnSmartcardcarto = new JRadioButton("SmartCard (Cart\u00E3o)");
+		buttonGroup_2.add(rdbtnSmartcardcarto);
+		rdbtnSmartcardcarto.setBounds(10, 66, 141, 23);
+		contentPane.add(rdbtnSmartcardcarto);
+		
+		JRadioButton rdbtnTokenpendrive = new JRadioButton("Token (Pendrive)");
+		buttonGroup_2.add(rdbtnTokenpendrive);
+		rdbtnTokenpendrive.setBounds(162, 66, 193, 23);
+		contentPane.add(rdbtnTokenpendrive);
 		cbWindowsRepository.setVisible(false);
+		
+		rdbtnDoArquivo.setVisible(true);
+		rdbtnDoRepositorioDo.setVisible(true);
+		btnFileLocation.setVisible(true);
+		lblLocal.setVisible(true);
+		tfCertFolder.setVisible(true);
+		rdbtnSmartcardcarto.setVisible(false);
+		rdbtnTokenpendrive.setVisible(false);
 		
 		//Inialize last radioButton
 		if(configIO.get("rdbtn").contains("1")) {
@@ -155,7 +184,35 @@ public class CompanyRegister extends JFrame {
 			lblLocal.setVisible(false);
 			btnFileLocation.setVisible(false);
 			tfCertFolder.setVisible(false);
+			rdbtnSmartcardcarto.setVisible(true);
+			rdbtnTokenpendrive.setVisible(true);
 		}
+		
+		rdbtnCertA3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				rdbtnDoArquivo.setVisible(false);
+				rdbtnDoRepositorioDo.setVisible(false);
+				btnFileLocation.setVisible(false);
+				lblLocal.setVisible(false);
+				tfCertFolder.setVisible(false);
+				rdbtnSmartcardcarto.setVisible(true);
+				rdbtnTokenpendrive.setVisible(true);
+			}
+		});
+		
+		rdbtnCertA1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				rdbtnDoArquivo.setVisible(true);
+				rdbtnDoRepositorioDo.setVisible(true);
+				btnFileLocation.setVisible(true);
+				lblLocal.setVisible(true);
+				tfCertFolder.setVisible(true);
+				rdbtnSmartcardcarto.setVisible(false);
+				rdbtnTokenpendrive.setVisible(false);
+			}
+		});
 		
 		rdbtnDoArquivo.addActionListener(new ActionListener() {
 			@Override
@@ -171,6 +228,7 @@ public class CompanyRegister extends JFrame {
 				}
 			}
 		});
+		
 		rdbtnDoRepositorioDo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
