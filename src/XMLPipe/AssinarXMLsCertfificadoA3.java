@@ -53,10 +53,12 @@ public class AssinarXMLsCertfificadoA3 {
   
     private PrivateKey privateKey;  
     private KeyInfo keyInfo;  
-  
+
+    private static String certType;
     private static String xmlEnviNFeAssinado;
 
-    public static String assinarArquivo(String senhaDoCertificadoDoCliente, String fileEnviNFe) {
+    public static String assinarArquivo(String senhaDoCertificadoDoCliente, String fileEnviNFe, String certipe) {
+    	certType = certipe;
         try {  
             AssinarXMLsCertfificadoA3 assinarXMLsCertfificadoA3 = new AssinarXMLsCertfificadoA3();  
   
@@ -133,8 +135,14 @@ public class AssinarXMLsCertfificadoA3 {
         /** 
          * Para Certificados A3 Cartao usar: SmartCard.cfg; 
          * Para Certificados A3 Token usar: Token.cfg; 
-         */  
-        Provider provider = new sun.security.pkcs11.SunPKCS11("SmartCard.cfg");  
+         */
+    	Provider provider;
+    	if(certType.equals("Card")) {
+    		provider = new sun.security.pkcs11.SunPKCS11("SmartCard.cfg");
+    	}
+    	else {
+    		provider = new sun.security.pkcs11.SunPKCS11("Token.cfg");
+    	}
         Security.addProvider(provider);   
   
         KeyStore ks = KeyStore.getInstance("pkcs11", provider);  

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import io.CompanyInfo;
 import io.ConfigIO;
 import utils.FolderSearcher;
 import utils.WindowsRepo;
@@ -27,7 +28,9 @@ import utils.WindowsRepo;
 
 public class Register extends JFrame {
 	private static final int PORT = 9999;
-	private static ServerSocket socket;   
+	private static ServerSocket socket;
+	
+	
 	
 	public static void main(String[] contentPane) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,8 +53,11 @@ public class Register extends JFrame {
 			//Make sure only one instance is running at the same time
 			socket = new ServerSocket(PORT,0,InetAddress.getByAddress(new byte[] {127,0,0,1}));
 			
-			if(configIO.get("firstInit").isEmpty()) {
-				CompanyRegister companyRegister = new CompanyRegister();
+			if(configIO.generalInfo.getFirstInit()) {
+				configIO.companyInfos = new ArrayList<CompanyInfo>();
+				configIO.companyInfos.add(new CompanyInfo("", "", "A1", "", "", ""));
+				configIO.saveConfig();
+				CompanyRegister companyRegister = new CompanyRegister(0, false);
 				companyRegister.setLocationRelativeTo(null);
 				companyRegister.setVisible(true);
 			}
@@ -60,7 +66,8 @@ public class Register extends JFrame {
 			}
 		} 
 		catch (Exception e) {
-			JOptionPane.showMessageDialog(null,"Uma instancia do programa já está aberta!");
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Uma instancia do programa já está aberta!" + e.getMessage());
 		}
 	}
 }

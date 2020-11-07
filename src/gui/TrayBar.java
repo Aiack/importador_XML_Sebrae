@@ -43,15 +43,15 @@ public class TrayBar {
 			ActionListener companyScreen = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					CompanyRegister companyRegister = null;
+					CompanyList companyList = null;
 					try {
-						companyRegister = new CompanyRegister();
+						companyList = new CompanyList();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					companyRegister.setLocationRelativeTo(null);
-					companyRegister.setVisible(true);
+					companyList.setLocationRelativeTo(null);
+					companyList.setVisible(true);
 				}
 			};
 			
@@ -59,7 +59,7 @@ public class TrayBar {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						configIO.updateConfig();
+						configIO.getConfig();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -79,11 +79,27 @@ public class TrayBar {
 				}
 			};
 			
+			ActionListener folderSelectorAction = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					FolderSelector folderSelector = null;
+					try {
+						folderSelector = new FolderSelector(0, true);
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+					folderSelector.setLocationRelativeTo(null);
+					folderSelector.setVisible(true);
+					
+				}
+			};
+			
 			PopupMenu popup = new PopupMenu("Menu de Opções");
 			
 			MenuItem fExecution = new MenuItem("Forçar Execução");
 			pauseExecution = new CheckboxMenuItem("Pausar Execução");
-			MenuItem sCompany = new MenuItem("Abrir Configurações");
+			MenuItem sCompany = new MenuItem("Abrir Listagem de Empresa");
+			MenuItem sfolders = new MenuItem("Abrir Configuração das Pastas");
 			MenuItem about = new MenuItem("Sobre");
 			
 			MenuItem defaultItem = new MenuItem("Sair");
@@ -91,11 +107,13 @@ public class TrayBar {
 			sCompany.addActionListener(companyScreen);
 			fExecution.addActionListener(forceExecution);
 			about.addActionListener(aboutScreen);
+			sfolders.addActionListener(folderSelectorAction);
 			
 			popup.add(fExecution);
 			popup.add(pauseExecution);
 			popup.addSeparator();
 			popup.add(sCompany);
+			popup.add(sfolders);
 			popup.addSeparator();
 			popup.add(about);
 			popup.addSeparator();
@@ -118,8 +136,8 @@ public class TrayBar {
 		    new Thread(() -> {
 		    	while(true) {
 		    		try {
-		    			configIO.updateConfig();
-		    			String delay = configIO.get("tfDelay");
+		    			configIO.getConfig();
+		    			String delay = String.valueOf(configIO.generalInfo.getDelay());
 		    			int d;
 		    			if(delay.isEmpty()) {
 		    				d = 5;
@@ -151,12 +169,14 @@ public class TrayBar {
 	}
 	
 	private void mainDBprocess() {
-		File path = new File(configIO.get("tfXMLFolder"));
+		String XMLFolder = configIO.generalInfo.getXMLFolder();
+		String DBFolder = configIO.generalInfo.getDBFolder();
+		File path = new File(XMLFolder);
 		File[] filesList = path.listFiles();
 		for (File file : filesList) {
 			if(file.getName().endsWith(".xml")) {
 				try {
-					new XMLToDBPipeline(file.getAbsolutePath(), configIO.get("tfCertFolder"), configIO.get("txtFilePassword"), configIO.get("tfDBfolder"));
+					new XMLToDBPipeline(file.getAbsolutePath(), DBFolder);
 					supressWarning = false;
 					file.delete();
 					trayIcon.displayMessage("Importador","Nota Fiscal Processada Com Sucesso!",TrayIcon.MessageType.INFO);

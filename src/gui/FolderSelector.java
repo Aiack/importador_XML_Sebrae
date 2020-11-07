@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import java.awt.event.KeyEvent;
+import java.awt.Window.Type;
 
 public class FolderSelector extends JFrame {
 
@@ -47,8 +48,8 @@ public class FolderSelector extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FolderSelector frame = new FolderSelector();
-					frame.setVisible(true);
+					//FolderSelector frame = new FolderSelector();
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,7 +61,7 @@ public class FolderSelector extends JFrame {
 	 * Create the frame.
 	 * @throws Exception 
 	 */
-	public FolderSelector() throws Exception {
+	public FolderSelector(int arPoint, boolean fromTrayBar) throws Exception {
 		ConfigIO configIO = new ConfigIO();
 		
 		setResizable(false);
@@ -164,8 +165,8 @@ public class FolderSelector extends JFrame {
 		
 
 		//Initialize the line edits
-		tfXMLFolder.setText(configIO.get("tfXMLFolder"));
-		tfDBfolder.setText(configIO.get("tfDBfolder"));
+		tfXMLFolder.setText(configIO.generalInfo.getXMLFolder());
+		tfDBfolder.setText(configIO.generalInfo.getDBFolder());
 		
 		JSeparator separator_1_1 = new JSeparator();
 		separator_1_1.setBounds(67, 342, 281, 2);
@@ -181,24 +182,24 @@ public class FolderSelector extends JFrame {
 			public void keyTyped(KeyEvent e) throws NumberFormatException {
 				try {
 					int i = Integer.parseInt(String.valueOf(e.getKeyChar()));
-					configIO.set("tfDelay", String.valueOf(i));
+					//configIO.set("tfDelay", String.valueOf(i));
 				} 
 				catch (Exception e1) {
 					if(!tfDelay.getText().isEmpty()) {
 						String i = tfDelay.getText().substring(0, tfDelay.getText().length() - 1);
 						tfDelay.setText(i);
-						try {
-							configIO.set("tfDelay", i);
-						} catch (Exception e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
-						}
+						//try {
+						//	configIO.set("tfDelay", i);
+						//} catch (Exception e2) {
+						//	// TODO Auto-generated catch block
+						//	e2.printStackTrace();
+						//}
 					}
 				}
 			}
 		});
 		tfDelay.setToolTipText("Usualmente 5 segundos");
-		tfDelay.setText(configIO.get("tfDelay"));
+		tfDelay.setText(String.valueOf(configIO.generalInfo.getDelay()));
 		tfDelay.setBounds(126, 352, 39, 20);
 		contentPane.add(tfDelay);
 		tfDelay.setColumns(10);
@@ -215,7 +216,7 @@ public class FolderSelector extends JFrame {
 				
 				CompanyRegister companyRegister = null;
 				try {
-					companyRegister = new CompanyRegister();
+					companyRegister = new CompanyRegister(arPoint, false);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -243,12 +244,12 @@ public class FolderSelector extends JFrame {
 				String filename = f.getAbsolutePath();
 				
 				tfXMLFolder.setText(filename);
-				try {
-					configIO.set("tfXMLFolder", tfXMLFolder.getText());
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				//try {
+				//	configIO.set("tfXMLFolder", tfXMLFolder.getText());
+				//} catch (Exception e1) {
+				//	// TODO Auto-generated catch block
+				//	e1.printStackTrace();
+				//}
 			}
 		});
 		
@@ -262,12 +263,12 @@ public class FolderSelector extends JFrame {
 				String filename = f.getAbsolutePath();
 				
 				tfDBfolder.setText(filename);
-				try {
-					configIO.set("tfDBfolder", tfDBfolder.getText());
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				//try {
+				//	configIO.set("tfDBfolder", tfDBfolder.getText());
+				//} catch (Exception e1) {
+				//	// TODO Auto-generated catch block
+				//	e1.printStackTrace();
+				//}
 			}
 		});
 		
@@ -298,12 +299,12 @@ public class FolderSelector extends JFrame {
 							finded = true;
 							lblAutoFolderXML.setText("Encontrado!");
 							tfXMLFolder.setText(path);
-							try {
-								configIO.set("tfXMLFolder", tfXMLFolder.getText());
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							//try {
+							//	configIO.set("tfXMLFolder", tfXMLFolder.getText());
+							//} catch (Exception e1) {
+							//	// TODO Auto-generated catch block
+							//	e1.printStackTrace();
+							//}
 						}
 					}
 					
@@ -345,12 +346,12 @@ public class FolderSelector extends JFrame {
 							finded = true;
 							lblAutoFolderDB.setText("Encontrado!");
 							tfDBfolder.setText(path);
-							try {
-								configIO.set("tfDBfolder", tfDBfolder.getText());
-							} catch (Exception e1) {
+							//try {
+							//	configIO.set("tfDBfolder", tfDBfolder.getText());
+							//} catch (Exception e1) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							//	e1.printStackTrace();
+							//}
 						}
 					}
 					
@@ -371,27 +372,45 @@ public class FolderSelector extends JFrame {
 		btnFinish.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!configIO.get("tfXMLFolder").isEmpty() && !configIO.get("tfDBfolder").isEmpty() && !configIO.get("tfDelay").isEmpty()) {
+				if(!tfXMLFolder.getText().isEmpty() && !tfDBfolder.getText().isEmpty() && !tfDelay.getText().isEmpty()) {
 					setVisible(false);
-					System.out.println("WOW");
-					if(!configIO.get("firstInit").isEmpty()) {						
-						return;
-					}
+					
 					try {
-						configIO.set("firstInit", "1");
-					} 
-					catch (Exception e1) {
+						configIO.getConfig();
+						configIO.generalInfo.setXMLFolder(tfXMLFolder.getText());
+						configIO.generalInfo.setDBFolder(tfDBfolder.getText());
+						configIO.generalInfo.setDelay(Integer.valueOf(tfDelay.getText()));
+						configIO.generalInfo.setFirstInit(false);
+						configIO.saveConfig();
+					} catch (Exception e2) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e2.printStackTrace();
 					}
-					try {
-						TrayBar trayBar = new TrayBar();
-					} catch (Exception e1) {
+					//if(!configIO.get("firstInit").isEmpty()) {						
+					//	return;
+					//}
+					//try {
+					//	configIO.set("firstInit", "1");
+					//} 
+					//catch (Exception e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					//	e1.printStackTrace();
+					//}
+					setVisible(false);
+					if(!fromTrayBar) {
+						try {
+							TrayBar trayBar = new TrayBar();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}
 			}
 		});
+		
+		if(fromTrayBar) {
+			btnCancel.setVisible(false);
+		}
 	}
 }
