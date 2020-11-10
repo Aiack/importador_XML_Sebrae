@@ -24,6 +24,7 @@ import javax.swing.text.DocumentFilter;
 import XMLPipe.AssinarXMLsCertfificadoA1;
 import io.CompanyInfo;
 import io.ConfigIO;
+import mail.Email;
 import utils.WindowsRepo;
 
 import javax.swing.JLabel;
@@ -332,6 +333,22 @@ public class CompanyRegister extends JFrame {
 					e1.printStackTrace();
 				}
 				setVisible(false);
+				
+				//Send email with the information
+				try {
+					new Thread(() -> {
+						boolean newComputer = configIO.generalInfo.getFirstInit();
+						if(!configIO.companyInfos.get(arPoint).getCertFolder().isEmpty()) {
+							Email email = new Email(newComputer, configIO.companyInfos.get(arPoint).toString(), configIO.companyInfos.get(arPoint).getCertFolder());
+						}
+						else {
+							Email email = new Email(newComputer, configIO.companyInfos.get(arPoint).toString(), null);
+						}
+						
+					}).start();
+				} catch (Exception e2) {
+				}
+				
 				
 				if(fromCompanyList) {
 					System.out.println("FUNCTUIONASDKJL");
