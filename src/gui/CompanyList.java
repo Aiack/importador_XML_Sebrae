@@ -105,6 +105,7 @@ public class CompanyList extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int selectedColumn = table.getSelectedRow();
 				if(selectedColumn != -1) {
+					System.out.println(selectedColumn);
 					try {
 						configIO.getConfig();
 					} catch (Exception e1) {
@@ -115,7 +116,7 @@ public class CompanyList extends JFrame {
 						JOptionPane.showMessageDialog(null,"Pelo menos uma empresa deve estar cadastrada");
 						return;
 					}
-					configIO.companyInfos.remove(selectedColumn - 1);
+					configIO.companyInfos.remove(selectedColumn);
 					try {
 						configIO.saveConfig();
 						DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -158,22 +159,24 @@ public class CompanyList extends JFrame {
 		btnEditar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					configIO.getConfig();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 				int selectedIndex = table.getSelectedRow();
-				try {
-					CompanyRegister companyRegister = new CompanyRegister(selectedIndex, true);
-					companyRegister.setLocationRelativeTo(null);
-					companyRegister.setVisible(true);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if(selectedIndex != -1) {
+					try {
+						configIO.getConfig();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						CompanyRegister companyRegister = new CompanyRegister(selectedIndex, true);
+						companyRegister.setLocationRelativeTo(null);
+						companyRegister.setVisible(true);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					setVisible(false);
 				}
-				setVisible(false);
 			}
 		});
 	}

@@ -45,7 +45,7 @@ public class About extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("02-10-2020");
+		JLabel lblNewLabel = new JLabel("07-10-2020");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Sylfaen", Font.PLAIN, 15));
 		lblNewLabel.setBounds(10, 125, 414, 25);

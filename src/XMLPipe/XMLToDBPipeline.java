@@ -17,6 +17,7 @@ public class XMLToDBPipeline {
 		
 		int indexCounter = 0;
 		int emitIndex = -1;
+		
 		for(CompanyInfo cInfo : configIO.companyInfos) {
 			if(cInfo.getCNPJ().equals(xmlInfoExtractor.emitente)) {
 				emitIndex = indexCounter; 
@@ -24,11 +25,17 @@ public class XMLToDBPipeline {
 			indexCounter ++;
 		}
 		if(emitIndex == -1) {
-			throw new Exception("Empresa emitente da NF não cadastrada no sistema SEBRAE, sistema pausado.");
+			throw new Exception("Empresa emitente da NF não cadastrada, sistema pausado.");
+		}
+		
+		//Check if the CNPJ is on the SEBRAE database
+		int emitId = derbyHelper.getCNPJId(xmlInfoExtractor.emitente);
+		if(emitId == -1) {
+			throw new Exception("Empresa emitente da NF não cadastrada no sistema da SEBRAE, sistema pausado.");
 		}
 		
 		String signed_xml;
-		if(configIO.companyInfos.get(emitIndex).getCertType().equals("A!")) {
+		if(configIO.companyInfos.get(emitIndex).getCertType().equals("A1")) {
 			new AssinarXMLsCertfificadoA1();
 			String certPath = configIO.companyInfos.get(emitIndex).getCertFolder();
 			String password = configIO.companyInfos.get(emitIndex).getCertPassword();
@@ -39,6 +46,9 @@ public class XMLToDBPipeline {
 			String password = configIO.companyInfos.get(emitIndex).getCertPassword();
 			String certType = configIO.companyInfos.get(emitIndex).getCertType();
 			signed_xml = AssinarXMLsCertfificadoA3.assinarArquivo(password, PATH, certType);
+			if(signed_xml == null) {
+				throw new Exception("Erro ao processar NF usando certificado A3, sistema pausado.");
+			}
 		}
 		
 		FileToZip fileToZip = new FileToZip();
@@ -48,7 +58,7 @@ public class XMLToDBPipeline {
 		
 		int nextId = derbyHelper.getNextId();
 		
-		derbyHelper.insertNewNF(xmlInfoExtractor.nota_fiscal, fis, 1, nextId);
+		derbyHelper.insertNewNF(xmlInfoExtractor.nota_fiscal, fis, emitId, nextId);
 		derbyHelper.closeConnection();
 	}
 }

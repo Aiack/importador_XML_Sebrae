@@ -131,6 +131,21 @@ public class DerbyHelper {
 		return nextId + 1;
 	}
 	
+	public int getCNPJId(String CNPJ) throws SQLException {
+		int id = -1;
+		PreparedStatement statement = connect.prepareStatement("SELECT ID_EMITENTE, NR_DOCUMENTO FROM NFE.EMITENTE");
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		while(resultSet.next()) {
+			String cnpj = resultSet.getString("NR_DOCUMENTO");
+			if(cnpj.equals(CNPJ)) {
+				id = resultSet.getInt("ID_EMITENTE");
+			}
+		}
+		return id;
+	}
+	
 	private boolean checkIfUnique(String NUMERO, String SERIE, String ANO, int ID_EMITENTE) throws SQLException{
 		PreparedStatement statement = connect.prepareStatement("SELECT * FROM NFE.NOTA_FISCAL");
 		
