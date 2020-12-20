@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat Nov 07 20:41:31 GFT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-0175-a516-1c4d-0000068d43b8 
+Sun Dec 20 00:24:23 GFT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-0176-7e2d-3e4d-000006679520 
 on database directory C:\database\NFE_400 with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
 Loaded from file:/C:/Users/Jhelison/eclipse-workspace/Final_project/derby.jar
 java.vendor=Oracle Corporation
@@ -11,3 +11,6 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sun Dec 20 00:24:24 GFT 2020:
+Shutting down instance a816c00e-0176-7e2d-3e4d-000006679520 on database directory C:\database\NFE_400 with class loader sun.misc.Launcher$AppClassLoader@2a139a55 

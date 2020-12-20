@@ -10,9 +10,11 @@ import io.ConfigIO;
 public class XMLToDBPipeline {
 
 	public XMLToDBPipeline(String PATH, String dataBasePath) throws Exception {
+		Boolean certA3HasPassed = true;
+		
 		ConfigIO configIO = new ConfigIO();
 		
-		XMLInfoExtractor xmlInfoExtractor = new XMLInfoExtractor(PATH);
+		XMLInfoExtractor xmlInfoExtractor = new XMLInfoExtractor(PATH, certA3HasPassed);
 		DerbyHelper derbyHelper = new DerbyHelper(dataBasePath);
 		
 		int indexCounter = 0;
@@ -34,6 +36,7 @@ public class XMLToDBPipeline {
 			throw new Exception("Empresa emitente da NF não cadastrada no sistema da SEBRAE, sistema pausado.");
 		}
 		
+		
 		String signed_xml;
 		if(configIO.companyInfos.get(emitIndex).getCertType().equals("A1")) {
 			new AssinarXMLsCertfificadoA1();
@@ -47,7 +50,8 @@ public class XMLToDBPipeline {
 			String certType = configIO.companyInfos.get(emitIndex).getCertType();
 			signed_xml = AssinarXMLsCertfificadoA3.assinarArquivo(password, PATH, certType);
 			if(signed_xml == null) {
-				throw new Exception("Erro ao processar NF usando certificado A3, sistema pausado.");
+				certA3HasPassed = false;
+				signed_xml = AssinarXMLsCertfificadoA1.lerXML(PATH);
 			}
 		}
 		
@@ -58,7 +62,14 @@ public class XMLToDBPipeline {
 		
 		int nextId = derbyHelper.getNextId();
 		
+		xmlInfoExtractor = new XMLInfoExtractor(PATH, certA3HasPassed);
+		
 		derbyHelper.insertNewNF(xmlInfoExtractor.nota_fiscal, fis, emitId, nextId);
 		derbyHelper.closeConnection();
+		
+		if(!certA3HasPassed) {
+			throw new Exception("Erro ao processar nota com certificado A3, nota inserida como EM DIGITAÇÂO");
+		}
+		
 	}
 }

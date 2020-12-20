@@ -34,9 +34,13 @@ public class XMLInfoExtractor {
 	private boolean isDest;
 	private String dest;
 	
+	private Boolean certA3HasPassed;
 	
-	public XMLInfoExtractor(String path) throws FileNotFoundException, XMLStreamException, ParseException{
+	
+	public XMLInfoExtractor(String path, Boolean certA3HasPassed) throws FileNotFoundException, XMLStreamException, ParseException{
 		this.path = path;
+		
+		this.certA3HasPassed = certA3HasPassed;
 		
 		nota_fiscal = new HashMap<String, String>();
 		emitente = "";
@@ -84,7 +88,13 @@ public class XMLInfoExtractor {
         		dictPut("nNF", "NUMERO");
         		dictPut("serie", "SERIE");
         		dictPut("mod", "MODELO");
-        		nota_fiscal.put("SITUACAO", "ASSINADA");
+        		if(this.certA3HasPassed) {
+        			nota_fiscal.put("SITUACAO", "ASSINADA");
+        		}
+        		else {
+        			nota_fiscal.put("SITUACAO", "EM_DIGITACAO");
+        		}
+        		
         		dictPut("dhEmi", "DATA_EMISSAO");
         		nota_fiscal.put("TIPO_EMISSAO", "NORMAL");
         		nota_fiscal.put("DATA_AUTORIZACAO", "");

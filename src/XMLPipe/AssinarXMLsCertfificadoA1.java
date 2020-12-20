@@ -188,7 +188,7 @@ public class AssinarXMLsCertfificadoA1 {
     	return document;
     }
     
-    private static String lerXML(String fileXML) throws IOException { 
+    public static String lerXML(String fileXML) throws IOException { 
     	String linha = "";
     	StringBuilder xml = new StringBuilder();
     	

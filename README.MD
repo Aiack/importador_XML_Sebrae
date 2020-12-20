@@ -9,6 +9,8 @@ Este programa é capaz de assinar xml usando certificados digitais e importar di
 
 
 ## Changelog
+### 1.21
+  - O sistema agora adiciona notas com erro no certificado A3 como EM DIGITAÇÂO
 ### 1.1
   - Capacidade de trabalhar com múltiplas empresas
   - Possibilidade de usar certificados A3 tipo token e smartcard

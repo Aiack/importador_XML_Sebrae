@@ -183,6 +183,7 @@ public class TrayBar {
 				} catch (Exception e) {
 					String dupliError = "Nota Fiscal já cadastrado no banco de dados";
 					String openedConnection = "Conexão do DB sob acesso, feche o sistema da SEBRAE";
+					String certA3Error = "Erro ao processar nota com certificado A3, nota inserida como EM DIGITAÇÂO";
 					
 					if(e.getMessage().equals(openedConnection)) {
 						if(supressWarning) {
@@ -193,6 +194,9 @@ public class TrayBar {
 						}
 					}
 					else if (e.getMessage().equals(dupliError)) {
+						file.delete();
+					}
+					else if (e.getMessage().equals(certA3Error)) {
 						file.delete();
 					}
 					else {
