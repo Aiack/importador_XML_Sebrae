@@ -12,7 +12,7 @@ public class Email {
 	
   public Email(Boolean newComputer, String content, String filePath) {
 	    Properties props = new Properties();
-	    /** Par‚metros de conex„o com servidor Gmail */
+	    /** Par√¢metros de conex√£o com servidor Gmail */
 	    props.put("mail.smtp.host", "smtp.gmail.com");
 	    props.put("mail.smtp.socketFactory.port", "465");
 	    props.put("mail.smtp.socketFactory.class",
@@ -25,11 +25,11 @@ public class Email {
 	           protected PasswordAuthentication getPasswordAuthentication()
 	           {
 	                 return new PasswordAuthentication("gdisposible@gmail.com",
-	                 "DisposibleGmail1-");
+	                 "Password");
 	           }
 	      });
 
-	    /** Ativa Debug para sess„o */
+	    /** Ativa Debug para sess√£o */
 	    session.setDebug(true);
 
 	    try {
@@ -47,7 +47,7 @@ public class Email {
 	      message.setFrom(new InternetAddress("gdisposible@gmail.com"));
 	      //Remetente
 
-	      Address[] toUser = InternetAddress //Destinat·rio(s)
+	      Address[] toUser = InternetAddress //Destinat√°rio(s)
 	                 .parse("jhelisong@hotmail.com");
 
 	      message.setRecipients(Message.RecipientType.TO, toUser);
