@@ -3,6 +3,8 @@ package XMLPipe;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -18,6 +20,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+
+import utils.RemoveBomFromUtf8File;
 
 
 
@@ -37,7 +41,7 @@ public class XMLInfoExtractor {
 	private Boolean certA3HasPassed;
 	
 	
-	public XMLInfoExtractor(String path, Boolean certA3HasPassed) throws FileNotFoundException, XMLStreamException, ParseException{
+	public XMLInfoExtractor(String path, Boolean certA3HasPassed) throws XMLStreamException, ParseException, IOException{
 		this.path = path;
 		
 		this.certA3HasPassed = certA3HasPassed;
@@ -50,16 +54,22 @@ public class XMLInfoExtractor {
 		XMLParser();
 	}
 	
-	public void XMLParser() throws FileNotFoundException, XMLStreamException, ParseException{
+	public void XMLParser() throws XMLStreamException, ParseException, IOException{
+		//Remove bom if the utf-8 have
+		new RemoveBomFromUtf8File(path);
+		
+		
 		XMLInputFactory factory = XMLInputFactory.newInstance();
         eventReader = factory.createXMLEventReader(new FileReader(path));
         
         while(eventReader.hasNext()) {
         	event = eventReader.nextEvent();
+        	System.out.println(event);
         	
         	if(event.getEventType() == XMLStreamConstants.START_ELEMENT) {
         		StartElement startElement = event.asStartElement();
         		qName = startElement.getName().getLocalPart();
+        		
         		
         		if(qName.equals("dest")) {
         			isDest = true;

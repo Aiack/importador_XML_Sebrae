@@ -9,6 +9,8 @@ Este programa é capaz de assinar xml usando certificados digitais e importar di
 
 
 ## Changelog
+### 1.3
+  - Corrigida falha em que o sistema C-plus gera arquivos com encode UTF8 with bom
 ### 1.21
   - O sistema agora adiciona notas com erro no certificado A3 como EM DIGITAÇÂO
 ### 1.1

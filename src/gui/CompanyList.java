@@ -26,13 +26,13 @@ public class CompanyList extends JFrame {
 
 	private JPanel contentPane;
 	
-	private String[] columnNames = {"CNPJ", "Nome", "Tipo do certificado", "Data criação"};
+	private String[] columnNames = {"CNPJ", "Nome", "Tipo do certificado", "Data criaï¿½ï¿½o"};
 	
 	ConfigIO configIO = new ConfigIO();
 	
 	private String[][] data = {
 			{"1", "Oriza Vieira Lima", "A1", "10-10-2020"},
-			{"2", "José Raimundo Uchoa", "A2", "20-11-2021"}
+			{"2", "Josï¿½ Raimundo Uchoa", "A2", "20-11-2021"}
 	};
 
 	 private TableModel model = new DefaultTableModel(configIO.getCompanyInfoList(), columnNames)

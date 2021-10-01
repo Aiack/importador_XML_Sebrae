@@ -2,11 +2,6 @@ package utils;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.filechooser.FileSystemView;
-
-import com.sun.javafx.binding.StringFormatter;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
 public class FolderSearcher {
 	private String folder;
 	
@@ -48,7 +43,6 @@ public class FolderSearcher {
 	public ArrayList<String> getWindowsDrives(){
 		ArrayList<String> results = new ArrayList<String>();
 		File[] paths;
-		FileSystemView fsv = FileSystemView.getFileSystemView();
 		paths = File.listRoots();
 		for(File path:paths) {
 			results.add(path.getAbsolutePath());

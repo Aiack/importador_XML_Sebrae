@@ -79,10 +79,10 @@ public class AssinarXMLsCertfificadoA1 {
     	ArrayList<Transform> transformList = signatureFactory(signatureFactory);
     	loadCertificates(certificado, senha, signatureFactory);
     	
-    	System.out.println("| INFO: " + document.getDocumentElement().getElementsByTagName(NFE).getLength());
+    	//System.out.println("| INFO: " + document.getDocumentElement().getElementsByTagName(NFE).getLength());
     	
     	//for (int i = 0; i < document.getDocumentElement().getElementsByTagName(NFE).getLength(); i++) {
-		System.out.println("| INFO: " + "Funcão assinar");
+		//System.out.println("| INFO: " + "Funcão assinar");
 		assinar(NFE, signatureFactory, transformList, privateKey, keyInfo, document, 0);
     	//}
     	
@@ -122,7 +122,7 @@ public class AssinarXMLsCertfificadoA1 {
     	
     	XMLSignature signature = fac.newXMLSignature(si, ki);
     	
-    	System.out.println("| INFO: " +  document.getFirstChild());
+    	//System.out.println("| INFO: " +  document.getFirstChild());
     	DOMSignContext dsc = new DOMSignContext(privateKey, document.getFirstChild());
     	signature.sign(dsc);
     }
@@ -207,10 +207,10 @@ public class AssinarXMLsCertfificadoA1 {
     }
     
     private static void error(String error) {  
-        System.out.println("| ERROR: " + error);  
+        //System.out.println("| ERROR: " + error);  
     }  
     
     private static void info(String info) {  
-        System.out.println("| INFO: " + info);  
+        //System.out.println("| INFO: " + info);  
     }
 }

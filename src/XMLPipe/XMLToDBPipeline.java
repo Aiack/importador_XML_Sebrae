@@ -14,7 +14,11 @@ public class XMLToDBPipeline {
 		
 		ConfigIO configIO = new ConfigIO();
 		
+		System.out.println("Before xmlInfoExtractor");
+		
 		XMLInfoExtractor xmlInfoExtractor = new XMLInfoExtractor(PATH, certA3HasPassed);
+		
+		System.out.println("After xmlInfoExtractor");
 		DerbyHelper derbyHelper = new DerbyHelper(dataBasePath);
 		
 		int indexCounter = 0;
@@ -45,14 +49,14 @@ public class XMLToDBPipeline {
 			signed_xml = AssinarXMLsCertfificadoA1.assinarArquivo(certPath, password, PATH);
 		}
 		else {
-			new AssinarXMLsCertfificadoA3();
-			String password = configIO.companyInfos.get(emitIndex).getCertPassword();
-			String certType = configIO.companyInfos.get(emitIndex).getCertType();
-			signed_xml = AssinarXMLsCertfificadoA3.assinarArquivo(password, PATH, certType);
-			if(signed_xml == null) {
+			//new AssinarXMLsCertfificadoA3();
+			//String password = configIO.companyInfos.get(emitIndex).getCertPassword();
+			//String certType = configIO.companyInfos.get(emitIndex).getCertType();
+			//signed_xml = AssinarXMLsCertfificadoA3.assinarArquivo(password, PATH, certType);
+			//if(signed_xml == null) {
 				certA3HasPassed = false;
 				signed_xml = AssinarXMLsCertfificadoA1.lerXML(PATH);
-			}
+			//}
 		}
 		
 		FileToZip fileToZip = new FileToZip();

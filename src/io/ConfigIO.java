@@ -27,19 +27,19 @@ public class ConfigIO {
 	public ConfigIO() throws Exception {
 		File tmpDir = new File(DIRETORIO + "\\" + ARQUIVO);
 		if(!tmpDir.exists()) {
-			System.out.println("Directory don't exist");
+			//System.out.println("Directory don't exist");
 			setNewConfig();
 			saveConfig();
 		}
 		else {
-			System.out.println("The file was found");
+			//System.out.println("The file was found");
 			//Check if config is updated then update it
 			try {
 				getConfig();
-				System.out.println("config loaded with sucess");
+				//System.out.println("config loaded with sucess");
 			}
 			catch (Exception e) {
-				System.out.println(e.getMessage());
+				//System.out.println(e.getMessage());
 				setNewConfig();
 				saveConfig();
 			}
@@ -97,12 +97,12 @@ public class ConfigIO {
 			companyInfos = new ArrayList<CompanyInfo>();
 			while(linha != null) {
 				if(lineCount == 1) {
-					System.out.println(linha);
+					//System.out.println(linha);
 					generalInfo = new GeneralInfo();
 					generalInfo.fromString(linha);
 				}
 				else {
-					System.out.println(linha);
+					//System.out.println(linha);
 					if(!linha.isEmpty()) {
 						CompanyInfo cInfo = new CompanyInfo();
 						cInfo.fromString(linha);						
@@ -112,8 +112,8 @@ public class ConfigIO {
 				linha = reader.readLine();
 				lineCount = lineCount + 1;
 			}
-			System.out.println("Finished reading");
-			System.out.println(companyInfos);
+			//System.out.println("Finished reading");
+			//System.out.println(companyInfos);
 			reader.close();
 		}
 		catch (FileNotFoundException fnfe) {

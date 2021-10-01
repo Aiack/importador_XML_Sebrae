@@ -45,7 +45,7 @@ public class About extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("21-12-2020");
+		JLabel lblNewLabel = new JLabel("01-10-2021");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Sylfaen", Font.PLAIN, 15));
 		lblNewLabel.setBounds(10, 125, 414, 25);
@@ -63,7 +63,7 @@ public class About extends JFrame {
 		lblJhelisonghotmailcom.setBounds(10, 41, 414, 19);
 		contentPane.add(lblJhelisonghotmailcom);
 		
-		JLabel lblVerso = new JLabel("Vers\u00E3o 1.21");
+		JLabel lblVerso = new JLabel("Vers\u00E3o 1.3");
 		lblVerso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVerso.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblVerso.setBounds(10, 71, 414, 43);
